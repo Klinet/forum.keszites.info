@@ -1,6 +1,6 @@
 FROM php:7.2-apache
 RUN apt-get update \
-    && apt-get -y install git zlib1g-dev mariadb-server mariadb-client mariadb-backup libzip-dev \
+    && apt-get -y install apt-utils git zlib1g-dev mariadb-server mariadb-client mariadb-backup libzip-dev curl gnupg \
     && docker-php-ext-install zip mysqli pdo_mysql \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
@@ -12,6 +12,8 @@ RUN apt-get update \
     && curl -sS https://getcomposer.org/installer \
      | php -- --install-dir=/usr/local/bin --filename=composer \
     && echo "ServerName localhost" >> /etc/apache2/apache2.conf \
-    && echo "AllowEncodedSlashes On" >> /etc/apache2/apache2.conf
+    && echo "AllowEncodedSlashes On" >> /etc/apache2/apache2.conf \
+    && curl -sL https://deb.nodesource.com/setup_11.x  | bash \
+    && apt-get -y install nodejs
 
 WORKDIR /var/www
